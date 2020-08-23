@@ -1,0 +1,73 @@
+package com.codewithshah;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+
+//***************************************Detect cycle in an undirected graph*****************************
+public class second {
+    private  int V;
+    private LinkedList<Integer>  adj[];
+    second(int v)
+    {
+        V=v;
+        adj = new  LinkedList[V];
+        for (int i=0;i<V;i++)
+            adj[i] = new LinkedList();
+    }
+    void addEdge(int v , int w)
+    {
+        adj[v].add(w);
+        adj[w].add(v);
+    }
+    boolean newcycle(int v  , boolean[]  visited , int parent)
+    {
+        visited[v] = true;
+        Integer i=0;
+        Iterator<Integer> it = adj[v].iterator();
+        while (it.hasNext())
+        {
+            i = it.next();
+            if (!visited[i])
+            {
+                newcycle(i,visited,v);
+                return true;
+            }
+            else if(i!=parent)
+                return true;
+        }
+        return false;
+    }
+    boolean iscycle()
+    {
+        boolean visited[] = new boolean[V];
+        for (int i=0;i<V;i++)
+        {
+            visited[i] = false;
+        }
+        for (int u=0;u<V;u++)
+        {
+            if(!visited[u])
+            {
+                if(newcycle(u , visited ,u))
+                    return true;
+            }
+        }
+        return false;
+    }
+    public static void main(String[] args) {
+        
+        second g = new second(5);
+        g.addEdge(1, 0);
+        g.addEdge(0, 2);
+        g.addEdge(2, 1);
+        g.addEdge(0, 3);
+        g.addEdge(3, 4);
+
+        if(g.iscycle())
+            System.out.print("The Graph containing Cycle");
+        else
+            System.out.print("The Graph NOT  containing Cycle");
+
+
+    }
+}
