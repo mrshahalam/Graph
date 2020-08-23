@@ -1,0 +1,57 @@
+package com.codewithshah;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+
+public class third {
+
+    private  int V;
+    private LinkedList<Integer> adj[];
+    third(int v)
+    {
+        V=v;
+        adj = new  LinkedList[v];
+        for (int i=0;i<v;++i)
+            adj[i] = new LinkedList<>();
+    }
+
+    void edgeadd(int v ,int w)
+    {
+        adj[v].add(w);
+    }
+
+    void newDFS(int v , boolean[] visited)
+    {
+        visited[v]=true;
+        System.out.print(v+" ");
+
+        Iterator<Integer> i = adj[v].listIterator();
+
+        while (i.hasNext())
+        {
+            int n = i.next();
+            if (!visited[n])
+            {
+                newDFS(n,visited);
+            }
+        }
+    }
+
+    void DFS(int v)
+    {
+        boolean visited[] = new  boolean[V];
+        newDFS(v,visited);
+    }
+    public static void main(String[] args)
+    {
+        third  g  = new third(4);
+        g.edgeadd(0, 1);
+        g.edgeadd(0, 2);
+        g.edgeadd(1, 2);
+        g.edgeadd(2, 0);
+        g.edgeadd(2, 3);
+        g.edgeadd(3, 3);
+        System.out.print("The DFS Traversing of the Graph is : \n");
+        g.DFS(2);
+    }
+}
